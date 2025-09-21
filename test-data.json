@@ -1,0 +1,105 @@
+{
+  "users": [
+    {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": "password123",
+      "role": "user"
+    },
+    {
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "name": "Bob Johnson",
+      "email": "bob@example.com",
+      "password": "user456",
+      "role": "user"
+    },
+    {
+      "name": "Alice Brown",
+      "email": "alice@example.com",
+      "password": "manager789",
+      "role": "manager"
+    }
+  ],
+  "stocks": [
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "price": 150.0,
+      "quantity": 100,
+      "description": "Technology company that designs and manufactures consumer electronics",
+      "category": "Technology"
+    },
+    {
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "price": 2800.0,
+      "quantity": 50,
+      "description": "Search engine and cloud services company",
+      "category": "Technology"
+    },
+    {
+      "symbol": "TSLA",
+      "name": "Tesla Inc.",
+      "price": 250.0,
+      "quantity": 75,
+      "description": "Electric vehicles and clean energy company",
+      "category": "Automotive"
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "price": 420.0,
+      "quantity": 80,
+      "description": "Software, cloud computing, and productivity services",
+      "category": "Technology"
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon.com Inc.",
+      "price": 3500.0,
+      "quantity": 30,
+      "description": "E-commerce and cloud computing services",
+      "category": "E-commerce"
+    },
+    {
+      "symbol": "JPM",
+      "name": "JPMorgan Chase & Co.",
+      "price": 180.0,
+      "quantity": 200,
+      "description": "Investment banking and financial services",
+      "category": "Finance"
+    },
+    {
+      "symbol": "JNJ",
+      "name": "Johnson & Johnson",
+      "price": 160.0,
+      "quantity": 150,
+      "description": "Pharmaceutical and medical devices company",
+      "category": "Healthcare"
+    },
+    {
+      "symbol": "WMT",
+      "name": "Walmart Inc.",
+      "price": 160.0,
+      "quantity": 120,
+      "description": "Multinational retail corporation",
+      "category": "Retail"
+    }
+  ],
+  "updateExamples": {
+    "userUpdate": {
+      "name": "John Updated",
+      "role": "admin"
+    },
+    "stockUpdate": {
+      "price": 155.0,
+      "quantity": 120,
+      "description": "Updated stock information"
+    }
+  }
+}

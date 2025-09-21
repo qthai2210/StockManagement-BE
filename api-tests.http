@@ -1,0 +1,166 @@
+### Stock Management API Tests
+### Base URL
+@baseUrl = http://localhost:3000
+
+### Variables
+@contentType = application/json
+
+#############################################
+### USER API TESTS
+#############################################
+
+### Create a new user
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "role": "user"
+}
+
+###
+
+### Create another user (admin)
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "Jane Smith",
+  "email": "jane@example.com",
+  "password": "admin123",
+  "role": "admin"
+}
+
+###
+
+### Get all users
+GET {{baseUrl}}/users
+
+###
+
+### Get user by ID (replace with actual ID from previous response)
+GET {{baseUrl}}/users/USER_ID_HERE
+
+###
+
+### Update user by ID (replace with actual ID)
+PATCH {{baseUrl}}/users/USER_ID_HERE
+Content-Type: {{contentType}}
+
+{
+  "name": "John Updated",
+  "role": "admin"
+}
+
+###
+
+### Delete user by ID (replace with actual ID)
+DELETE {{baseUrl}}/users/USER_ID_HERE
+
+#############################################
+### STOCK API TESTS
+#############################################
+
+### Create a new stock
+POST {{baseUrl}}/stocks
+Content-Type: {{contentType}}
+
+{
+  "symbol": "AAPL",
+  "name": "Apple Inc.",
+  "price": 150.00,
+  "quantity": 100,
+  "description": "Technology stock",
+  "category": "Technology"
+}
+
+###
+
+### Create another stock
+POST {{baseUrl}}/stocks
+Content-Type: {{contentType}}
+
+{
+  "symbol": "GOOGL",
+  "name": "Alphabet Inc.",
+  "price": 2800.00,
+  "quantity": 50,
+  "description": "Search engine and cloud services",
+  "category": "Technology"
+}
+
+###
+
+### Create a third stock
+POST {{baseUrl}}/stocks
+Content-Type: {{contentType}}
+
+{
+  "symbol": "TSLA",
+  "name": "Tesla Inc.",
+  "price": 250.00,
+  "quantity": 75,
+  "description": "Electric vehicles and energy",
+  "category": "Automotive"
+}
+
+###
+
+### Get all stocks
+GET {{baseUrl}}/stocks
+
+###
+
+### Get stock by ID (replace with actual ID from previous response)
+GET {{baseUrl}}/stocks/STOCK_ID_HERE
+
+###
+
+### Update stock by ID (replace with actual ID)
+PATCH {{baseUrl}}/stocks/STOCK_ID_HERE
+Content-Type: {{contentType}}
+
+{
+  "price": 155.00,
+  "quantity": 120,
+  "description": "Updated technology stock price"
+}
+
+###
+
+### Delete stock by ID (replace with actual ID)
+DELETE {{baseUrl}}/stocks/STOCK_ID_HERE
+
+#############################################
+### ERROR TESTING
+#############################################
+
+### Test invalid user creation (missing required fields)
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "Incomplete User"
+}
+
+###
+
+### Test invalid stock creation (missing required fields)
+POST {{baseUrl}}/stocks
+Content-Type: {{contentType}}
+
+{
+  "symbol": "INVALID"
+}
+
+###
+
+### Test getting non-existent user
+GET {{baseUrl}}/users/507f1f77bcf86cd799439011
+
+###
+
+### Test getting non-existent stock
+GET {{baseUrl}}/stocks/507f1f77bcf86cd799439011
