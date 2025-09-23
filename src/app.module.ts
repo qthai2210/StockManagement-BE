@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { StocksModule } from './stocks/stocks.module';
 import { CommonModule } from './common/common.module';
+import { AuthModule } from './auth/auth.module';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { RequestIdInterceptor } from './common/interceptors/request-id.interceptor';
 
@@ -22,6 +23,7 @@ import { RequestIdInterceptor } from './common/interceptors/request-id.intercept
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
     CommonModule,
     UsersModule,
     StocksModule,

@@ -4,26 +4,27 @@
 
 ### Variables
 @contentType = application/json
+@token = 
 
 #############################################
-### USER API TESTS
+### AUTHENTICATION API TESTS
 #############################################
 
-### Create a new user
-POST {{baseUrl}}/users
+### Register a new user
+POST {{baseUrl}}/auth/register
 Content-Type: {{contentType}}
 
 {
   "name": "John Doe",
-  "email": "john11@example.com",
+  "email": "john111@example.com",
   "password": "password123",
   "role": "user"
 }
 
 ###
 
-### Create another user (admin)
-POST {{baseUrl}}/users
+### Register an admin user
+POST {{baseUrl}}/auth/register
 Content-Type: {{contentType}}
 
 {
@@ -35,19 +36,118 @@ Content-Type: {{contentType}}
 
 ###
 
-### Get all users
+### Login with user credentials
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+###
+
+### Login with admin credentials (Copy token from response)
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "jane@example.com",
+  "password": "admin123"
+}
+
+###
+
+### Get current user profile (requires JWT token)
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{token}}
+
+###
+
+### Get current user info
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+###
+
+### Update profile
+PATCH {{baseUrl}}/auth/profile
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "John Updated"
+}
+
+###
+
+### Change password
+POST {{baseUrl}}/auth/change-password
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "oldPassword": "password123",
+  "newPassword": "newpassword123"
+}
+
+###
+
+### Refresh token
+POST {{baseUrl}}/auth/refresh-token
+Authorization: Bearer {{token}}
+
+#############################################
+### USER API TESTS (Now with JWT Protection)
+#############################################
+
+### Create a new user (Admin only)
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "New User",
+  "email": "newuser@example.com",
+  "password": "password123",
+  "role": "user"
+}
+
+###
+
+### Get all users (Admin/Manager only)
 GET {{baseUrl}}/users
+Authorization: Bearer {{token}}
 
 ###
 
-### Get user by ID (replace with actual ID from previous response)
+### Get my profile
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{token}}
+
+###
+
+### Get user by ID (Admin/Manager only)
 GET {{baseUrl}}/users/USER_ID_HERE
+Authorization: Bearer {{token}}
 
 ###
 
-### Update user by ID (replace with actual ID)
+### Update my profile
+PATCH {{baseUrl}}/users/me
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "John Updated"
+}
+
+###
+
+### Update user by ID (Admin only)
 PATCH {{baseUrl}}/users/USER_ID_HERE
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "name": "John Updated",
@@ -56,16 +156,18 @@ Content-Type: {{contentType}}
 
 ###
 
-### Delete user by ID (replace with actual ID)
+### Delete user by ID (Admin only)
 DELETE {{baseUrl}}/users/USER_ID_HERE
+Authorization: Bearer {{token}}
 
 #############################################
-### STOCK API TESTS
+### STOCK API TESTS (Now with JWT Protection)
 #############################################
 
-### Create a new stock
+### Create a new stock (Admin/Manager only)
 POST {{baseUrl}}/stocks
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "symbol": "AAPL",
@@ -78,9 +180,10 @@ Content-Type: {{contentType}}
 
 ###
 
-### Create another stock
+### Create another stock (Admin/Manager only)
 POST {{baseUrl}}/stocks
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "symbol": "GOOGL",
@@ -93,9 +196,10 @@ Content-Type: {{contentType}}
 
 ###
 
-### Create a third stock
+### Create a third stock (Admin/Manager only)
 POST {{baseUrl}}/stocks
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "symbol": "TSLA",
@@ -108,19 +212,22 @@ Content-Type: {{contentType}}
 
 ###
 
-### Get all stocks
+### Get all stocks (Authenticated users)
 GET {{baseUrl}}/stocks
+Authorization: Bearer {{token}}
 
 ###
 
-### Get stock by ID (replace with actual ID from previous response)
+### Get stock by ID (Authenticated users)
 GET {{baseUrl}}/stocks/STOCK_ID_HERE
+Authorization: Bearer {{token}}
 
 ###
 
-### Update stock by ID (replace with actual ID)
+### Update stock by ID (Admin/Manager only)
 PATCH {{baseUrl}}/stocks/STOCK_ID_HERE
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "price": 155.00,
@@ -130,8 +237,9 @@ Content-Type: {{contentType}}
 
 ###
 
-### Delete stock by ID (replace with actual ID)
+### Delete stock by ID (Admin only)
 DELETE {{baseUrl}}/stocks/STOCK_ID_HERE
+Authorization: Bearer {{token}}
 
 #############################################
 ### ERROR TESTING
@@ -164,6 +272,34 @@ GET {{baseUrl}}/users/507f1f77bcf86cd799439011
 
 ### Test getting non-existent stock
 GET {{baseUrl}}/stocks/507f1f77bcf86cd799439011
+Authorization: Bearer {{token}}
+
+#############################################
+### AUTHORIZATION TESTS
+#############################################
+
+### Test unauthorized access to protected route
+GET {{baseUrl}}/users
+
+###
+
+### Test with invalid token
+GET {{baseUrl}}/users
+Authorization: Bearer invalid_token_here
+
+###
+
+### Test access with user role to admin-only endpoint
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "password123",
+  "role": "user"
+}
 
 #############################################
 ### EXTENDED STATUS API TESTS
