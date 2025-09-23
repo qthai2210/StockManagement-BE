@@ -15,7 +15,7 @@ Content-Type: {{contentType}}
 
 {
   "name": "John Doe",
-  "email": "john@example.com",
+  "email": "john11@example.com",
   "password": "password123",
   "role": "user"
 }
@@ -164,3 +164,179 @@ GET {{baseUrl}}/users/507f1f77bcf86cd799439011
 
 ### Test getting non-existent stock
 GET {{baseUrl}}/stocks/507f1f77bcf86cd799439011
+
+#############################################
+### EXTENDED STATUS API TESTS
+#############################################
+
+### Get system overview
+GET {{baseUrl}}/status/extended/overview
+
+###
+
+### Get database health
+GET {{baseUrl}}/status/extended/health/database
+
+###
+
+### Get external services health
+GET {{baseUrl}}/status/extended/health/services
+
+###
+
+### Get security health
+GET {{baseUrl}}/status/extended/health/security
+
+###
+
+### Get performance analytics
+GET {{baseUrl}}/status/extended/analytics/performance
+
+###
+
+### Record a login attempt (successful)
+POST {{baseUrl}}/status/extended/auth/login-attempt
+Content-Type: {{contentType}}
+
+{
+  "endpoint": "/auth/login",
+  "success": true
+}
+
+###
+
+### Record a login attempt (failed)
+POST {{baseUrl}}/status/extended/auth/login-attempt
+Content-Type: {{contentType}}
+
+{
+  "endpoint": "/auth/login",
+  "success": false,
+  "reason": "Invalid password"
+}
+
+###
+
+### Record external service ping
+POST {{baseUrl}}/status/extended/external-service/ping
+Content-Type: {{contentType}}
+
+{
+  "serviceName": "payment-gateway",
+  "responseTime": 250,
+  "success": true
+}
+
+###
+
+### Record cache operation (hit)
+POST {{baseUrl}}/status/extended/cache/operation
+Content-Type: {{contentType}}
+
+{
+  "endpoint": "/users",
+  "operation": "hit"
+}
+
+###
+
+### Record cache operation (miss)
+POST {{baseUrl}}/status/extended/cache/operation
+Content-Type: {{contentType}}
+
+{
+  "endpoint": "/stocks",
+  "operation": "miss"
+}
+
+###
+
+### Record security event
+POST {{baseUrl}}/status/extended/security/event
+Content-Type: {{contentType}}
+
+{
+  "endpoint": "/users",
+  "eventType": "suspicious",
+  "details": {
+    "ip": "192.168.1.100",
+    "userAgent": "Bot/1.0",
+    "reason": "Multiple rapid requests"
+  }
+}
+
+###
+
+### Record business transaction (successful)
+POST {{baseUrl}}/status/extended/business/transaction
+Content-Type: {{contentType}}
+
+{
+  "businessFunction": "stock_purchase",
+  "success": true,
+  "transactionTime": 1200,
+  "revenue": 150.00
+}
+
+###
+
+### Record business transaction (failed)
+POST {{baseUrl}}/status/extended/business/transaction
+Content-Type: {{contentType}}
+
+{
+  "businessFunction": "stock_purchase",
+  "success": false,
+  "transactionTime": 800,
+  "failureReason": "Insufficient funds"
+}
+
+###
+
+### Update database status
+POST {{baseUrl}}/status/extended/database/mongodb-primary
+Content-Type: {{contentType}}
+
+{
+  "method": "GET",
+  "connectionCount": 15,
+  "queryCount": 1250,
+  "slowQueryCount": 3,
+  "averageQueryTime": 45,
+  "connectionStatus": "connected",
+  "databaseVersion": "7.0.0"
+}
+
+###
+
+### Update external service status
+POST {{baseUrl}}/status/extended/external-service/payment-gateway
+Content-Type: {{contentType}}
+
+{
+  "serviceUrl": "https://api.paymentgateway.com",
+  "serviceVersion": "2.1.0",
+  "serviceHealth": "healthy",
+  "timeoutCount": 0,
+  "retryCount": 2,
+  "serviceMetrics": {
+    "uptime": 99.9,
+    "responseTime": 180,
+    "errorRate": 0.1
+  }
+}
+
+###
+
+### Basic API Status Tests (Original)
+GET {{baseUrl}}/status
+
+###
+
+### Get API logs
+GET {{baseUrl}}/status/logs
+
+###
+
+### Get API logs with filters
+GET {{baseUrl}}/status/logs?method=POST&status=200&limit=10
