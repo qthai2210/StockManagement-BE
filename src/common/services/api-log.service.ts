@@ -28,7 +28,7 @@ export class ApiLogService {
     private apiStatusModel: Model<ApiStatusDocument>,
   ) {}
 
-  async saveLog(logData: LogData): Promise<ApiLog> {
+  async saveLog(logData: LogData): Promise<ApiLog | null> {
     try {
       const log = new this.apiLogModel({
         ...logData,
