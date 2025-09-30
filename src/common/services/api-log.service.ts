@@ -43,15 +43,21 @@ export class ApiLogService {
 
       const savedLog = await log.save();
 
-      // Update API status asynchronously
-      this.updateApiStatus(logData).catch((error) => {
+      // Update API status asynchronously with timeout for serverless
+      Promise.race([
+        this.updateApiStatus(logData),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Timeout')), 5000),
+        ),
+      ]).catch((error) => {
         console.error('Failed to update API status:', error);
       });
 
       return savedLog;
     } catch (error) {
       console.error('Failed to save API log:', error);
-      throw error;
+      // Don't throw in serverless to avoid function failures
+      return null;
     }
   }
 
