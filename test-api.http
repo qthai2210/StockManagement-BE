@@ -1,0 +1,32 @@
+### Health Check - Local
+GET http://localhost:3000/health
+
+### Health Check - Production
+GET https://stock-management-51hq4f7cd-qthai2210s-projects.vercel.app/health
+
+### Root Endpoint - Local
+GET http://localhost:3000/
+
+### Root Endpoint - Production
+GET https://stock-management-51hq4f7cd-qthai2210s-projects.vercel.app/
+
+### Get API Logs - Local
+GET http://localhost:3000/api/logs
+
+### Get API Logs - Production
+GET https://stock-management-51hq4f7cd-qthai2210s-projects.vercel.app/api/logs
+
+### Get API Stats - Local
+GET http://localhost:3000/api/stats
+
+### Get API Stats - Production
+GET https://stock-management-51hq4f7cd-qthai2210s-projects.vercel.app/api/stats
+
+### Test POST Request - Local
+POST http://localhost:3000/api/test
+Content-Type: application/json
+
+{
+  "message": "Test POST request",
+  "timestamp": "2024-01-01T00:00:00Z"
+}
