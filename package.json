@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build && mkdir -p public && cp -r dist/* public/",
-    "vercel-build": "nest build && mkdir -p api && cp dist/main.js api/index.js",
+    "vercel-build": "nest build && mkdir -p api && cp dist/main.js api/index.js && cp -r dist/* api/",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

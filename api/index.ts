@@ -1,22 +1,25 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../src/app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { AppModule } from '../src/app.module';
 
-let app;
+let app: any;
 
 async function bootstrap() {
   if (!app) {
     app = await NestFactory.create(AppModule);
 
     app.useGlobalPipes(new ValidationPipe());
-    app.enableCors();
+    app.enableCors({
+      origin: true,
+      credentials: true,
+    });
 
     await app.init();
   }
-  return app;
+  return app.getHttpAdapter().getInstance();
 }
 
-export default async (req, res) => {
+export default async (req: any, res: any) => {
   const server = await bootstrap();
-  return server.getHttpAdapter().getInstance()(req, res);
+  return server(req, res);
 };
