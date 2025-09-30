@@ -5,7 +5,8 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
+import { tap } from 'rxjs/operators';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class RequestIdInterceptor implements NestInterceptor {
@@ -13,15 +14,19 @@ export class RequestIdInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
 
-    // Generate unique request ID
-    const requestId = uuidv4();
+    // Generate request ID using Node.js built-in crypto
+    const requestId = request.headers['x-request-id'] || randomUUID();
 
-    // Add request ID to request object for use in other parts of the app
+    // Add request ID to request object
     request.requestId = requestId;
 
     // Add request ID to response headers
     response.setHeader('X-Request-ID', requestId);
 
-    return next.handle();
+    return next.handle().pipe(
+      tap(() => {
+        // Additional logging or processing can be done here
+      }),
+    );
   }
 }

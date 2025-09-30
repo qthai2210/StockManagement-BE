@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ApiLog, ApiLogDocument } from '../../schemas/api-log.schema';
 import { ApiStatus, ApiStatusDocument } from '../../schemas/api-status.schema';
+import { randomUUID } from 'crypto';
 
 export interface LogData {
   requestId: string;
@@ -32,6 +33,7 @@ export class ApiLogService {
     try {
       const log = new this.apiLogModel({
         ...logData,
+        requestId: logData.requestId || randomUUID(),
         status:
           logData.statusCode >= 400
             ? 'error'
