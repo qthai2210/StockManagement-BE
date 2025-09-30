@@ -7,8 +7,7 @@ if (!fs.existsSync('api')) {
 }
 
 // Create the serverless function
-const serverlessHandler = `
-const { NestFactory } = require('@nestjs/core');
+const serverlessHandler = `const { NestFactory } = require('@nestjs/core');
 const { ValidationPipe } = require('@nestjs/common');
 const { AppModule } = require('../dist/app.module');
 
@@ -32,10 +31,9 @@ async function bootstrap() {
 module.exports = async (req, res) => {
   const server = await bootstrap();
   return server(req, res);
-};
-`;
+};`;
 
-// Write the serverless function
+// Write the serverless function (overwrite existing)
 fs.writeFileSync('api/index.js', serverlessHandler);
 
 // Create public directory and copy dist files
@@ -43,12 +41,12 @@ if (!fs.existsSync('public')) {
   fs.mkdirSync('public', { recursive: true });
 }
 
-// Copy dist files to public (if needed for static assets)
+// Copy dist files to public
 const copyDir = (src, dest) => {
   if (fs.existsSync(src)) {
     fs.mkdirSync(dest, { recursive: true });
     const files = fs.readdirSync(src);
-    files.forEach(file => {
+    files.forEach((file) => {
       const srcPath = path.join(src, file);
       const destPath = path.join(dest, file);
       if (fs.statSync(srcPath).isDirectory()) {
@@ -62,4 +60,3 @@ const copyDir = (src, dest) => {
 
 copyDir('dist', 'public');
 console.log('Vercel build preparation completed');
-`;
