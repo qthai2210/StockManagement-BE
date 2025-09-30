@@ -6,8 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build && mkdir -p public && cp -r dist/* public/",
-    "vercel-build": "nest build && mkdir -p api && cp dist/main.js api/index.js && cp -r dist/* api/",
+    "build": "nest build",
+    "vercel-build": "nest build && node scripts/prepare-vercel.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
