@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "dist/main.js",
-      "use": "@vercel/node"
+  "functions": {
+    "dist/main.js": {
+      "runtime": "@vercel/node@18.x"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/docs/(.*)",
@@ -18,5 +17,6 @@
   ],
   "env": {
     "ENABLE_SWAGGER": "true"
-  }
+  },
+  "buildCommand": "npm run build"
 }
