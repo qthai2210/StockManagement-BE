@@ -1,23 +1,19 @@
 {
   "version": 2,
-  "buildCommand": "npm run vercel-build",
-  "outputDirectory": "public",
-  "installCommand": "npm install",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
-    }
-  ],
-  "functions": {
-    "api/index.js": {
-      "maxDuration": 30
-    }
-  },
   "builds": [
     {
       "src": "dist/main.js",
       "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/docs/(.*)",
+      "dest": "/dist/main.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/main.js"
     }
   ],
   "env": {
