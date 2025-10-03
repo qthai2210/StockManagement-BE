@@ -1,18 +1,23 @@
 {
   "version": 2,
-  "functions": {
-    "dist/main.js": {
-      "runtime": "@vercel/node@3.0.7"
-    }
-  },
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "public",
+  "installCommand": "npm install",
   "routes": [
     {
-      "src": "/api/docs/(.*)",
-      "dest": "/dist/main.js"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/dist/main.js"
+      "dest": "/api/index.js"
+    }
+  ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    }
+  },
+  "builds": [
+    {
+      "src": "dist/main.js",
+      "use": "@vercel/node"
     }
   ],
   "env": {
