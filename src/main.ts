@@ -31,7 +31,20 @@ async function bootstrap() {
       swaggerOptions: {
         persistAuthorization: true,
       },
+      customSiteTitle: 'Stock App API Docs',
+      customfavIcon: '/favicon.ico',
+      customJs: [
+        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js',
+      ],
+      customCssUrl: [
+        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
+      ],
     });
+
+    console.log(
+      `Swagger UI is available at: http://localhost:${process.env.PORT || 3000}/api/docs`,
+    );
   }
 
   const port = process.env.PORT || 3000;
