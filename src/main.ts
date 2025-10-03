@@ -1,36 +1,23 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
-  app.enableCors({
-    origin: true,
-    credentials: true,
-  });
+  // Swagger configuration
+  const config = new DocumentBuilder()
+    .setTitle('Stock App API')
+    .setDescription('Stock application API documentation')
+    .setVersion('1.0')
+    .addTag('stocks')
+    .addBearerAuth() // If you have authentication
+    .build();
 
-  const port = process.env.PORT || 3000;
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
 
-  if (process.env.NODE_ENV === 'production') {
-    // For Vercel serverless
-    await app.init();
-    return app.getHttpAdapter().getInstance();
-  } else {
-    // For local development
-    await app.listen(port);
-    console.log(`Application is running on: http://localhost:${port}`);
-  }
+  await app.listen(3000);
 }
 
-// Export for Vercel
-export default async (req: any, res: any) => {
-  const server = await bootstrap();
-  return server(req, res);
-};
-
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-  bootstrap();
-}
+bootstrap();

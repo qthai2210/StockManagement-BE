@@ -7,7 +7,12 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { randomUUID } from 'crypto';
+import { ApiHeader } from '@nestjs/swagger';
 
+/**
+ * Interceptor that adds a unique request ID to each HTTP request
+ * The request ID is either taken from the X-Request-ID header or generated automatically
+ */
 @Injectable()
 export class RequestIdInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
