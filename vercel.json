@@ -13,5 +13,14 @@
     "api/index.js": {
       "maxDuration": 30
     }
+  },
+  "builds": [
+    {
+      "src": "dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "ENABLE_SWAGGER": "true"
   }
 }

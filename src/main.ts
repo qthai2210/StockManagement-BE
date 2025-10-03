@@ -12,10 +12,8 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Swagger configuration - enable in all environments or specific ones
-  const shouldEnableSwagger =
-    process.env.NODE_ENV !== 'production' ||
-    process.env.ENABLE_SWAGGER === 'true';
+  // Swagger configuration - simplified for Vercel deployment
+  const shouldEnableSwagger = true; // Always enable for now to test
 
   if (shouldEnableSwagger) {
     const config = new DocumentBuilder()
@@ -27,24 +25,17 @@ async function bootstrap() {
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
+
+    // Simplified setup for Vercel compatibility
     SwaggerModule.setup('api/docs', app, document, {
       swaggerOptions: {
         persistAuthorization: true,
       },
       customSiteTitle: 'Stock App API Docs',
-      customfavIcon: '/favicon.ico',
-      customJs: [
-        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js',
-      ],
-      customCssUrl: [
-        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
-      ],
     });
 
-    console.log(
-      `Swagger UI is available at: http://localhost:${process.env.PORT || 3000}/api/docs`,
-    );
+    console.log(`Environment: ${process.env.NODE_ENV}`);
+    console.log(`Swagger UI should be available at: /api/docs`);
   }
 
   const port = process.env.PORT || 3000;
